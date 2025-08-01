@@ -1,8 +1,13 @@
 import express from "express";
 import { createUserProfile } from "../controller/userprofile/createUserProfile.controller";
+import { getUserProfile } from "../controller/userprofile/getUserProfile.controller";
 
-const userRouter = express.Router();
+const userRouterProfile = express.Router();
 
-userRouter.post("/", createUserProfile);
+userRouterProfile.post("/create-profile/:userId", createUserProfile);
+userRouterProfile.get("/view/:username", getUserProfile);
+// userRouterProfile.post("/", createUserProfile);
+// userRouterProfile.post("/", createUserProfile);
+// userRouterProfile.post("/", createUserProfile);
 
-export default userRouter;
+export default userRouterProfile;
