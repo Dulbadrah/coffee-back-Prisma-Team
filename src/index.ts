@@ -6,9 +6,6 @@ const port = 4200;
 app.use(express.json());
 
 app.use("/profile", userRouterProfile);
-app.use("/profile", userRouterProfile);
-// app.use("/profile", userRouterProfile);
-// app.use("/profile", userRouterProfile);
 // app.use("/profile", userRouterProfile);
 
 app.listen(port, async () => {
