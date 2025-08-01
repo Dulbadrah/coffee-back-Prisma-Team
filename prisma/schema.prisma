@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -12,56 +6,57 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
 model User {
-  id Int @id @default(autoincrement())
-  email String @unique
-  password String
-  username String @unique
+  id                Int         @id @default(autoincrement())
+  email             String      @unique
+  password          String
+  username          String      @unique
+  createdAt         DateTime    @default(now())
+  profileId         Int?
+  updatedAt         DateTime    @default(now()) @updatedAt
+  bankCard          BankCard?   @relation("BankCard")
+  donations         Donations[] @relation("Donations")
   receivedDonations Donations[] @relation("ReceivedDonations")
-  donations Donations[] @relation("Donations")
-  createdAt DateTime @default(now())
-  profileId Int? 
-  profile Profile? 
-  bankCard BankCard? @relation("BankCard")
-  updatedAt DateTime @default(now()) @updatedAt
+  profile           Profile?
 }
+
 model Donations {
-  id Int @id @default(autoincrement())
-  amount Int
-  specialMessage String?
+  id                      Int      @id @default(autoincrement())
+  amount                  Int
+  specialMessage          String?
   socialURLOrBuyMeACoffee String?
-  donorId Int
-  donor User @relation("Donations", fields: [donorId], references: [id])
-  user User @relation("ReceivedDonations",fields: [recipientId], references: [id])
-  recipientId Int
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
+  donorId                 Int
+  recipientId             Int
+  createdAt               DateTime @default(now())
+  updatedAt               DateTime @default(now()) @updatedAt
+  donor                   User     @relation("Donations", fields: [donorId], references: [id])
+  user                    User     @relation("ReceivedDonations", fields: [recipientId], references: [id])
 }
 
 model BankCard {
-  id Int @id @default(autoincrement())
-  country String
-  firstName String
-  lastName String
-  cardNumber String 
+  id         Int      @id @default(autoincrement())
+  country    String
+  firstName  String
+  lastName   String
+  cardNumber String
   expiryDate DateTime
-  userId Int @unique
-  user User @relation("BankCard", fields: [userId], references: [id])
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
+  userId     Int      @unique
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @default(now()) @updatedAt
+  user       User     @relation("BankCard", fields: [userId], references: [id])
 }
 
 model Profile {
-  id Int @id @default(autoincrement())
-  name String
-  about String?
-  avatarImage String
-  socialMediaURL String?
+  id              Int      @id @default(autoincrement())
+  name            String
+  about           String?
+  avatarImage     String
+  socialMediaURL  String?
   backgroundImage String?
-  successMessage String
-  userId Int @unique
-  user User @relation(fields: [userId], references: [id])
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
+  successMessage  String
+  userId          Int      @unique
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @default(now()) @updatedAt
+  user            User     @relation(fields: [userId], references: [id])
 }
-
