@@ -1,27 +1,33 @@
-import { Response, Request } from "express";
+import { Request, Response } from "express";
 import { prisma } from "../../utils/prisma";
 
-export const createBankCard = async (req: Request, res: Response) => {
-  const { userId } = req.params;
-  const { country, firstName, lastName, cardNumber, expiryDate } = req.body;
+export const createDonation = async (req: Request, res: Response) => {
 
+  const {
+    amount,
+    specialMessage,
+    socialURLOrBuyMeACoffee,
+    donorId,
+    recipientId,
+  } = req.body;
+
+  if (donorId === recipientId) {
+    return res
+      .status(400)
+      .json({ message: "Donor and recipient cannot be the same." });
+  }
   try {
-    const bankAccount = await prisma.bankCard.create({
+    const donation = await prisma.donations.create({
       data: {
-        country,
-        firstName,
-        lastName,
-        cardNumber,
-        expiryDate: new Date(expiryDate),
-        user: {
-          connect: {
-            id: Number(userId),
-          },
-        },
+        amount,
+        specialMessage,
+        socialURLOrBuyMeACoffee,
+        donorId,
+        recipientId,
       },
     });
-
-    res.status(200).json({ bankAccount });
+    console.log("donation:", donation);
+    res.status(200).json({ donation });
   } catch (error) {
     res.status(500).json({ message: error });
   }
