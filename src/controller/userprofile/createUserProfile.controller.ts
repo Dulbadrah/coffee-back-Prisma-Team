@@ -28,8 +28,15 @@ export const createUserProfile = async (req: Request, res: Response) => {
         },
       },
     });
+    const { id } = profile;
 
-    res.status(200).json({ profile });
+    const updatedUser = await prisma.user.update({
+      where: { id: Number(userId) },
+      data: {
+        profileId: id,
+      },
+    });
+    res.status(200).json({ updatedUser });
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: error });
