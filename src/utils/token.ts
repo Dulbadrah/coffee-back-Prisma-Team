@@ -1,28 +1,35 @@
 // utils/token.ts
 
+// token.ts
 import jwt from "jsonwebtoken";
 
 const SECRET = process.env.JWT_SECRET || "your_jwt_secret";
-const JWT_SECRET = process.env.JWT_SECRET || "your_default_secret";
 
-export const verify = (token: string): { data: { userId: number } } => {
-  return jwt.verify(token, SECRET) as { data: { userId: number } };
+interface JwtPayload {
+  userId: number;
+  email?: string;
+}
+
+export const verify = (token: string): JwtPayload => {
+  return jwt.verify(token, SECRET) as JwtPayload;
 };
 
-export const verifyd = (
-  token: string
-): { data: { userId: number; email?: string } } => {
-  return jwt.verify(token, JWT_SECRET) as {
-    data: { userId: number; email?: string };
-  };
+const JWT_SECRET = process.env.JWT_SECRET || "your_default_secret";
+
+interface JwtPayload {
+  userId: number;
+  email?: string;
+}
+
+export const verifyd = (token: string): JwtPayload => {
+  return jwt.verify(token, JWT_SECRET) as JwtPayload;
 };
 
 const secret = "super-secret-123";
 type Payload = {
-  userId:number,
-  email:string
-
-}
+  userId: number;
+  email: string;
+};
 
 export const createAccessToken = (payload: Payload) => {
   const hour = Math.floor(Date.now() / 1000) + 60 * 60;
