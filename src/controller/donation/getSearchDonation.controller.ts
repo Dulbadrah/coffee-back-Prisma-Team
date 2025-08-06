@@ -3,24 +3,41 @@ import { prisma } from "../../utils/prisma";
 
 export const searchDonations = async (req: Request, res: Response) => {
   const { userId } = req.params;
-  const { search } = req.query;
-
-  if (!search || typeof search !== "string") {
-    return res.status(400).json({ message: "Хайх утга шаардлагатай." });
-  }
+  const { search } = req.body;
 
   try {
     const donations = await prisma.donations.findMany({
       where: {
-        recipientId: Number(userId),
+        donorId: Number(userId),
         OR: [
           {
-            donor: { email: { contains: String(search), mode: "insensitive" } },
-          }, //tom jijig useg ashiglaj bolno
-          { specialMessage: { contains: String(search), mode: "insensitive" } },
+            donor: {
+              email: {
+                contains: search,
+                mode: "insensitive",
+              },
+            },
+          },
+          {
+            donor: {
+              username: {
+                contains: search,
+                mode: "insensitive",
+              },
+            },
+          },
+          {
+            specialMessage: {
+              contains: search,
+              mode: "insensitive",
+            },
+          },
         ],
       },
-      include: { donor: true, user: true },
+      include: {
+        donor: true,
+        user: true,
+      },
     });
 
     if (!donations.length) {
