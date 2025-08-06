@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 import { prisma } from "../../utils/prisma";
 import { verify } from "../../utils/token";
-
 export const getProfileCurrentUser = async (req: Request, res: Response) => {
   const authHeader = req.headers.authorization;
 
@@ -10,19 +9,19 @@ export const getProfileCurrentUser = async (req: Request, res: Response) => {
   }
 
   const token = authHeader.split(" ")[1];
-
+  console.log(token);
   try {
-    const isVerified = verify(token);
-
+    const decoded = verify(token);
+    console.log("decode", decoded);
     const profileCurrent = await prisma.profile.findUnique({
       where: {
-        userId: isVerified.data.userId,
+        userId: decoded.payload.userId,
       },
       include: {
         user: true,
       },
     });
-
+    console.log(profileCurrent);
     if (!profileCurrent) {
       return res.status(404).json({ message: "Profile not found" });
     }
