@@ -2,15 +2,27 @@ import { Request, Response } from "express";
 import { prisma } from "../../utils/prisma";
 
 export const getReceivedDonation = async (req: Request, res: Response) => {
-  const { userId } = req.params;
+  const { username } = req.params;
+
+  console.log("username: ", username);
 
   try {
+    const user = await prisma.user.findUnique({
+      where: {
+        username,
+      },
+    });
+
+    if (!user) {
+      throw new Error("user not found");
+    }
+
     const donations = await prisma.donations.findMany({
       where: {
-        recipientId: Number(userId),
+        recipientId: Number(user.id),
       },
       include: {
-        donor: true, // donor iin infog hamt awah
+        donor: true,
       },
     });
 
@@ -26,22 +38,3 @@ export const getReceivedDonation = async (req: Request, res: Response) => {
     res.status(500).json({ message: "Something went wrong.", error });
   }
 };
-
-const donanitons = [
-  {
-    id: 1,
-    donorId: "user-1",
-    receptentId: "user-2",
-  },
-  {
-    id: 2,
-    donorId: "user-2",
-    receptentId: "user-1",
-  },
-];
-
-const userId = "user-1";
-
-const myDonations = donanitons.filter(
-  (donaniton) => donaniton.receptentId === userId
-);
