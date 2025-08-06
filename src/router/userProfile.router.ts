@@ -10,7 +10,7 @@ const userRouterProfile = express.Router();
 userRouterProfile.post("/create-profile/:userId", createUserProfile);
 userRouterProfile.get("/view/:username", getUserProfile);
 userRouterProfile.patch("/update/:profileId", updateUserProfile);
-userRouterProfile.get("/current-user/", getProfileCurrentUser);
+userRouterProfile.get("/current-user", getProfileCurrentUser);
 userRouterProfile.post("/explore", getProfileExplore);
 
 export default userRouterProfile;

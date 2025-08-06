@@ -7,6 +7,7 @@ import donationRouter from "./router/donation.router";
 
 const app = express();
 const port = 4200;
+
 app.use(express.json());
 app.use(cors());
 
