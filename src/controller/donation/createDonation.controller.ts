@@ -2,7 +2,6 @@ import { Request, Response } from "express";
 import { prisma } from "../../utils/prisma";
 
 export const createDonation = async (req: Request, res: Response) => {
-
   const {
     amount,
     specialMessage,
@@ -10,7 +9,7 @@ export const createDonation = async (req: Request, res: Response) => {
     donorId,
     recipientId,
   } = req.body;
-
+  // console.log(req.body);
   if (donorId === recipientId) {
     return res
       .status(400)
@@ -29,6 +28,7 @@ export const createDonation = async (req: Request, res: Response) => {
     console.log("donation:", donation);
     res.status(200).json({ donation });
   } catch (error) {
-    res.status(500).json({ message: error });
+    console.log(error);
+    res.status(400).json({ message: error });
   }
 };
