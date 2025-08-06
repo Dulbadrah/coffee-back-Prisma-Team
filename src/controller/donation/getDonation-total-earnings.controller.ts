@@ -22,7 +22,10 @@ export const getTotalEarnings = async (req: Request, res: Response) => {
         totalEarnings: 0,
       });
     }
-
+    if (!userId) {
+      return res.status(400).json({ message: "userId шаардлагатай" });
+    }
+    
     return res.status(200).json({ totalEarnings });
   } catch (error) {
     return res.status(500).json({ message: "Алдаа гарлаа", error });
