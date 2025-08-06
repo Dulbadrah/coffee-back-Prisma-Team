@@ -9,19 +9,19 @@ export const getProfileCurrentUser = async (req: Request, res: Response) => {
   }
 
   const token = authHeader.split(" ")[1];
-
+  console.log(token);
   try {
     const decoded = verify(token);
-
+    console.log("decode", decoded);
     const profileCurrent = await prisma.profile.findUnique({
       where: {
-        userId: decoded.userId,
+        userId: decoded.payload.userId,
       },
       include: {
         user: true,
       },
     });
-
+    console.log(profileCurrent);
     if (!profileCurrent) {
       return res.status(404).json({ message: "Profile not found" });
     }

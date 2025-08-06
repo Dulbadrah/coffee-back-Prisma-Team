@@ -1,11 +1,9 @@
-// utils/token.ts
-
-// token.ts
 import jwt from "jsonwebtoken";
-
-const SECRET = process.env.JWT_SECRET || "your_jwt_secret";
+// current user iih
+const SECRET = process.env.JWT_SECRET || "super-secret-123";
 
 interface JwtPayload {
+  payload: any;
   userId: number;
   email?: string;
 }
@@ -13,8 +11,8 @@ interface JwtPayload {
 export const verify = (token: string): JwtPayload => {
   return jwt.verify(token, SECRET) as JwtPayload;
 };
-
-const JWT_SECRET = process.env.JWT_SECRET || "your_default_secret";
+// explore hesgiih
+const JWT_SECRET = process.env.JWT_SECRET || "super-secret-123";
 
 interface JwtPayload {
   userId: number;
@@ -26,6 +24,7 @@ export const verifyd = (token: string): JwtPayload => {
 };
 
 const secret = "super-secret-123";
+
 type Payload = {
   userId: number;
   email: string;
