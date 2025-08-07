@@ -11,6 +11,7 @@ userRouterProfile.post("/create-profile/:userId", createUserProfile);
 userRouterProfile.get("/view/:username", getUserProfile);
 userRouterProfile.patch("/update/:profileId", updateUserProfile);
 userRouterProfile.get("/current-user", getProfileCurrentUser);
-userRouterProfile.post("/explore", getProfileExplore);
+userRouterProfile.get("/explore", getProfileExplore);
+
 
 export default userRouterProfile;
