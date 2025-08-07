@@ -12,7 +12,7 @@ export const getProfileCurrentUser = async (req: Request, res: Response) => {
   console.log(token);
   try {
     const decoded = verify(token);
-    console.log("decode", decoded);
+
     const profileCurrent = await prisma.profile.findUnique({
       where: {
         userId: decoded.payload.userId,
@@ -21,7 +21,7 @@ export const getProfileCurrentUser = async (req: Request, res: Response) => {
         user: true,
       },
     });
-    console.log(profileCurrent);
+
     if (!profileCurrent) {
       return res.status(404).json({ message: "Profile not found" });
     }

@@ -7,7 +7,9 @@ export const getUserProfile = async (req: Request, res: Response) => {
   try {
     const profile = await prisma.profile.findFirst({
       where: {
-        name: username,
+        user: {
+          username,
+        },
       },
       include: {
         user: true,

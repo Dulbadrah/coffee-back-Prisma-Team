@@ -11,7 +11,7 @@ export const createUserProfile = async (req: Request, res: Response) => {
     backgroundImage,
     successMessage,
   } = req.body;
-
+  console.log(userId);
   try {
     const profile = await prisma.profile.create({
       data: {
@@ -21,11 +21,7 @@ export const createUserProfile = async (req: Request, res: Response) => {
         socialMediaURL,
         backgroundImage,
         successMessage,
-        user: {
-          connect: {
-            id: Number(userId),
-          },
-        },
+        userId: Number(userId),
       },
     });
     const { id } = profile;
