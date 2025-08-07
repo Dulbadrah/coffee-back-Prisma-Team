@@ -5,22 +5,15 @@ export const getUserProfile = async (req: Request, res: Response) => {
   const { username } = req.params;
 
   try {
-    const userByUsername = await prisma.user.findUnique({
+    const profile = await prisma.profile.findFirst({
       where: {
-        username: username,
-      },
-    });
-    const userId = userByUsername?.id;
-
-    const getProfile = await prisma.profile.findFirst({
-      where: {
-        userId: Number(userId),
+        name: username,
       },
       include: {
         user: true,
       },
     });
-    res.status(200).json({ getProfile });
+    res.status(200).json({ profile });
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: error });
