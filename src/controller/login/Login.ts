@@ -5,7 +5,7 @@ import { prisma } from "../../utils/prisma";
 
 export const Login = async (req: Request, res: Response) => {
   const { email, password } = req.body;
-  console.log(req.body);
+
   try {
     const user = await prisma.user.findFirst({
       where: { email },
