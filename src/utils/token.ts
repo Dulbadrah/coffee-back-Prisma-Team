@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 // current user iih
-const SECRET = process.env.JWT_SECRET || "super-secret-123";
+const SECRET = "super-secret-123";
 
 interface JwtPayload {
   payload: any;
@@ -12,7 +12,7 @@ export const verify = (token: string): JwtPayload => {
   return jwt.verify(token, SECRET) as JwtPayload;
 };
 // explore hesgiih
-const JWT_SECRET = process.env.JWT_SECRET || "super-secret-123";
+const JWT_SECRET = "super-secret-123";
 
 interface JwtPayload {
   userId: number;
