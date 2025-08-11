@@ -4,8 +4,6 @@ import { prisma } from "../../utils/prisma";
 export const getReceivedDonation = async (req: Request, res: Response) => {
   const { username } = req.params;
 
-  console.log("username: ", username);
-
   try {
     const user = await prisma.user.findUnique({
       where: {
